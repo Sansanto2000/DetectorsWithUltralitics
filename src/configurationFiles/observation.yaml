@@ -1,4 +1,6 @@
-path: /ruta/a/tu/dataset
+#path: /mnt/data3/sponte/datasets/conGSSSP.large.3.ultralytics
+path: /mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics.90
+#path: /mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics.90.allval
 
 train: images/train
 val: images/val

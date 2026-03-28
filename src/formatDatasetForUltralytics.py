@@ -11,7 +11,7 @@ Dataset a formatear se espera distribucion tipo:
 dataset |- images   
         |- labels
 """
-SOURCE_PATH = '/mnt/data3/sponte/datasets/conGSSSP.large.3'
+SOURCE_PATH = '/mnt/data3/sponte/datasets/observaciones-etiquetadas'
 
 """
 Ubicacion destino. El dataset formateado sigue la taxonomia:
@@ -22,7 +22,7 @@ dataset -|- images -|- train
                     |- val
 Si la carpeta no existe la crea.
 """
-DESTINY_PATH = '/mnt/data3/sponte/datasets/conGSSSP.large.3.ultralytics'
+DESTINY_PATH = '/mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics'
 
 """
 Porcentajen de datos para train, los demas van a val.
