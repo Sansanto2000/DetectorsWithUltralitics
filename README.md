@@ -11,3 +11,14 @@ A la hora de ejecutar usar el flag `--no-sync` para evitar sobreescritura de las
 ```
 uv run --no-sync src/test.py
 ```
+
+## Otros formatos
+Para exportar el modelo otros formatos puede usar las siguientes instrucciones.
+
+### TFJS
+Ejecute el siguiete comando en la consola.
+```
+tensorflowjs_converter --input_format keras \
+                       path/to/my_model.h5 \
+                       path/to/tfjs_target_dir
+```
