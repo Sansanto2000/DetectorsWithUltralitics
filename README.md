@@ -22,3 +22,10 @@ tensorflowjs_converter --input_format keras \
                        path/to/my_model.h5 \
                        path/to/tfjs_target_dir
 ```
+
+## Exportar
+
+Con los siguientes comandos se pueden exportar los modelos a formato onnx:
+```
+yolo export model=/home/sponte/Repositorios/DetectorsWithUltralitics/runs/detect/0.0.3.m/weights/best.pt format=onnx
+```
