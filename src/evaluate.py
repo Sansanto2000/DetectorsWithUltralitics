@@ -1,6 +1,6 @@
 from ultralytics import YOLO
 
-MODEL_PATH = "/home/sponte/Repositorios/DetectorsWithUltralitics/runs/detect/0.0.1.g/weights/best.pt"
+MODEL_PATH = "/home/sponte/Repositorios/DetectorsWithUltralitics/runs/detect/0.0.4.m+/weights/best.pt"
 CONFIGURATION_FILE = '/home/sponte/Repositorios/DetectorsWithUltralitics/src/configurationFiles/observation.yaml'
 
 # Load model
@@ -13,5 +13,5 @@ metrics = model.val(
     imgsz=640,
     batch=32,
     device=0,
-    name="val.gr"
+    name="val.mm+"
 )

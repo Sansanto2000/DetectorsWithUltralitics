@@ -1,6 +1,7 @@
 #path: /mnt/data3/sponte/datasets/conGSSSP.large.3.ultralytics
-path: /mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics.90
+#/sponte/datasets/observaciones-etiquetadas.ultralytics.90
 #path: /mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics.90.allval
+path: /mnt/data3/sponte/datasets/ReTrHO.Observaciones.19.05.26.mix
 
 train: images/train
 val: images/val

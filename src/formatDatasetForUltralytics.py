@@ -11,7 +11,7 @@ Dataset a formatear se espera distribucion tipo:
 dataset |- images   
         |- labels
 """
-SOURCE_PATH = '/mnt/data3/sponte/datasets/observaciones-etiquetadas'
+SOURCE_PATH = r'/mnt/data3/sponte/datasets/ReTrHO.Observaciones.19.05.26/OTROS'
 
 """
 Ubicacion destino. El dataset formateado sigue la taxonomia:
@@ -22,7 +22,7 @@ dataset -|- images -|- train
                     |- val
 Si la carpeta no existe la crea.
 """
-DESTINY_PATH = '/mnt/data3/sponte/datasets/observaciones-etiquetadas.ultralytics'
+DESTINY_PATH = r'/mnt/data3/sponte/datasets/ReTrHO.Observaciones.19.05.26.mix'
 
 """
 Porcentajen de datos para train, los demas van a val.
@@ -108,13 +108,19 @@ def copy_files(file_list:list[str], subset:str):
         dst_lbl = os.path.join(DESTINY_PATH, "labels", subset, base_name + ".txt")
 
         # Copiar imagen
-        shutil.copy2(src_img, dst_img)
-
-        # Copiar label (si no existe, crear vacío)
-        if os.path.exists(src_lbl):
-            shutil.copy2(src_lbl, dst_lbl)
+        # Verificar si ya existen
+        if os.path.exists(dst_img):
+            print(f"[EXISTE IMG] {dst_img}")
         else:
-            open(dst_lbl, "w").close()  # archivo vacío
+            shutil.copy2(src_img, dst_img)
+        # Copiar label si existe, sino crear archivo vacio
+        if os.path.exists(dst_lbl):
+            print(f"[EXISTE LBL] {dst_lbl}")
+        else:
+            if os.path.exists(src_lbl):
+                shutil.copy2(src_lbl, dst_lbl)
+            else:
+                open(dst_lbl, "w").close()
 
 def main():
     """Ejecuta codigo principal acorde a lo configurado en las variables de entorno.
