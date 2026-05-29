@@ -11,7 +11,7 @@ Dataset a formatear se espera distribucion tipo:
 dataset |- images   
         |- labels
 """
-SOURCE_PATH = r'/mnt/data3/sponte/datasets/ReTrHO.Observaciones.19.05.26/OTROS'
+SOURCE_PATH = r'/mnt/data3/sponte/datasets/components.obb/otros'
 
 """
 Ubicacion destino. El dataset formateado sigue la taxonomia:
@@ -22,7 +22,7 @@ dataset -|- images -|- train
                     |- val
 Si la carpeta no existe la crea.
 """
-DESTINY_PATH = r'/mnt/data3/sponte/datasets/ReTrHO.Observaciones.19.05.26.mix'
+DESTINY_PATH = r'/mnt/data3/sponte/datasets/components.obb.merge'
 
 """
 Porcentajen de datos para train, los demas van a val.
@@ -57,10 +57,10 @@ def get_image_files(images_path:str) -> list[Path]:
     """
     
     valid_ext = (".jpg", ".jpeg", ".png", ".bmp")
-    return [
+    return sorted([
         f for f in os.listdir(images_path)
         if f.lower().endswith(valid_ext)
-    ]
+    ])
 
 def split_dataset(files:list[str], split_size:float, seed:int) -> tuple[list[str], list[str]]:
     """Divide el conjunto de archivos recibido en 2 conjuntos acorde a una proporcion.

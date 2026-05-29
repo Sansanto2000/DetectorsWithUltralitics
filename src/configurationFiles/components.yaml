@@ -1,0 +1,8 @@
+path: /mnt/data3/sponte/datasets/components.obb.merge
+
+train: images/train
+val: images/val
+
+names:
+  0: lamp
+  1: science
