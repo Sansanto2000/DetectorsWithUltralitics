@@ -1,10 +1,27 @@
 [project]
 name = "detectorswithultralitics"
 version = "0.1.0"
-description = "Add your description here"
+description = "Detección de observaciones en escaneos de placas espectroscópicas con YOLO (Ultralytics)."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "imagehash>=4.3",
+    # Fijado por compatibilidad con torch 2.1.2 (ver README, drivers GPU del servidor).
     "numpy==1.26.4",
     "ultralytics>=8.4.27",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
+
+[build-system]
+requires = ["uv_build>=0.10,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "plate_detectors"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
