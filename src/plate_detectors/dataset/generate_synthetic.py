@@ -11,9 +11,11 @@ Pasos:
     4. Valida cada imagen con el mismo chequeo que Ultralytics usa para descartar.
 
 Por defecto genera placas de 500-1400 px por lado (los mismos rangos que
-`gsssp.save_yolo_dataset`) llevadas con letterbox a 1280x1280: conserva la proporción,
-como Ultralytics con las imágenes reales, y ocupa ~0.29 MB por imagen. Para placas con
-la proporción de las reales: `--height-range 900 2000 --width-range 2800 4500`.
+`gsssp.save_yolo_dataset`) a su tamaño original, sin relleno (~0.27 MB por imagen):
+Ultralytics ya hace su propio letterbox al entrenar. `--resize-mode letterbox` las lleva
+a `--imgsz` x `--imgsz` con relleno gris, útil para placas grandes (sin redimensionar,
+una placa de 4500 px ocupa ~1.5 MB). Para placas con la proporción de las reales:
+`--height-range 900 2000 --width-range 2800 4500`.
 
 Uso:
     # Observaciones con etiquetas OBB
@@ -151,9 +153,9 @@ def main():
     parser.add_argument("--val-fraction", type=float, default=0.2)
     parser.add_argument("--seed", type=int, default=0, help="semilla de GASP y del split")
     parser.add_argument("--label-format", choices=["obb", "aabb"], default="obb")
-    parser.add_argument("--resize-mode", choices=["letterbox", "none"], default="letterbox",
-                        help="letterbox conserva la proporción; none deja la placa a tamaño original (~1.5 MB/img)")
-    parser.add_argument("--imgsz", type=int, default=1280, help="lado del letterbox")
+    parser.add_argument("--resize-mode", choices=["none", "letterbox"], default="none",
+                        help="none: tamaño original; letterbox: escala a --imgsz y rellena con gris")
+    parser.add_argument("--imgsz", type=int, default=1280, help="lado del cuadrado con --resize-mode letterbox")
     parser.add_argument("--height-range", type=int, nargs=2, default=[500, 1400], metavar=("MIN", "MAX"),
                         help="rango en px (default 500 1400)")
     parser.add_argument("--width-range", type=int, nargs=2, default=[500, 1400], metavar=("MIN", "MAX"),

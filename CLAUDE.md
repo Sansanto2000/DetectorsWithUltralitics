@@ -82,8 +82,10 @@ necesita su propio entorno (TensorFlow, `numpy==1.24.3`, incompatible con este r
 el script lo invoca con `uv run --project <clon de GASP>` (default: carpeta hermana `GSSSP`).
 GASP usa índices de clase fijos (`observacion=0, science=1, lamp=2`); el script los remapea
 por nombre a los del YAML de `configs/` que se le pase (`lamp` 2 -> 0 en `components.yaml`).
-Defaults: placas de 500-1400 px por lado (los de `gsssp.save_yolo_dataset`), letterbox a
-1280x1280 (~0.29 MB/img, ~0.1 s/img en la Mac), etiquetas OBB, 20% val. Las placas reales son
+Defaults: placas de 500-1400 px por lado (los de `gsssp.save_yolo_dataset`) a tamaño original,
+sin relleno (~0.27 MB/img, ~0.1 s/img en la Mac), etiquetas OBB, 20% val. No se usa letterbox por
+defecto: agrandaría el 77% de las placas (lado mayor < 1280) y dejaría bandas de relleno dentro
+de los mosaicos de aumentación; Ultralytics ya hace su letterbox al entrenar. Las placas reales son
 más alargadas (proporción 2-3); para imitarlas: `--height-range 900 2000 --width-range 2800 4500`.
 
 ## Nomenclatura de runs
