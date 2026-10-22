@@ -48,7 +48,7 @@ src/plate_detectors/
   geometry.py            IoU de polígonos convexos, matching 1-a-1, score por imagen
   drawing.py             dibujo de polígonos y collages
   train.py resume.py evaluate.py predict.py check_gpu.py
-  dataset/               split, rotate90, find_duplicates, sanitize_filenames, move_contents
+  dataset/               generate_synthetic (GASP), split, rotate90, find_duplicates, ...
   plots/                 rank_predictions, mosaic, show_labels, metric_vs_param
 tests/                   pytest
 runs/{detect,obb}/       salidas de Ultralytics (versionadas, ver abajo)
@@ -74,6 +74,17 @@ images/                  3 escaneos de ejemplo para inferencia rápida
 - No commitear ni pushear sin confirmación del autor.
 - Antes de afirmar algo sobre el comportamiento del código, ejecutar algo que lo
   demuestre y mostrar los números.
+
+## Datos sintéticos (GASP)
+
+`plate_detectors.dataset.generate_synthetic` genera el dataset de preentrenamiento. GASP
+necesita su propio entorno (TensorFlow, `numpy==1.24.3`, incompatible con este repo), así que
+el script lo invoca con `uv run --project <clon de GASP>` (default: carpeta hermana `GSSSP`).
+GASP usa índices de clase fijos (`observacion=0, science=1, lamp=2`); el script los remapea
+por nombre a los del YAML de `configs/` que se le pase (`lamp` 2 -> 0 en `components.yaml`).
+Defaults: placas de 500-1400 px por lado (los de `gsssp.save_yolo_dataset`), letterbox a
+1280x1280 (~0.29 MB/img, ~0.1 s/img en la Mac), etiquetas OBB, 20% val. Las placas reales son
+más alargadas (proporción 2-3); para imitarlas: `--height-range 900 2000 --width-range 2800 4500`.
 
 ## Nomenclatura de runs
 
@@ -109,13 +120,15 @@ Los `args.yaml` de runs viejos referencian rutas anteriores al refactor
   `train --model runs/.../last.pt`.
 - **Modelos OBB devuelven `result.obb` y `result.boxes is None`**; los de detección, al revés.
   Usar `Detections.from_result`.
-- **Ultralytics descarta en silencio imágenes con etiquetas fuera de [0, 1]**
-  (`ignoring corrupt image/label: non-normalized or out of bounds coordinates`).
-  Sólo deja un warning. Pasa fácil con OBB que tocan el borde.
+- **Ultralytics descarta en silencio la imagen entera si una etiqueta sale de rango**
+  (`ignoring corrupt image/label: non-normalized or out of bounds coordinates`), con un
+  simple warning. El rango es [-0.01, 1.01], pero **se evalúa sobre `cx cy w h`, no sobre
+  esquinas**: `verify_image_label` (`ultralytics/data/utils.py`) convierte cada línea OBB
+  a su caja recta envolvente (`segments2boxes`) antes de chequear. Una esquina OBB en 1.05
+  pasa; una caja cuya envolvente mide más de 1.01 de ancho o alto se descarta.
 - Sin `project` explícito, Ultralytics guarda en `runs_dir` de su settings global
   (`~/Library/Application Support/Ultralytics/settings.json` o `~/.config/Ultralytics/`),
-  que depende de dónde se usó por primera vez. En la Mac del autor apunta a otro
-  repositorio (`ExportWithTFJS/runs`).
+  que depende de dónde se usó por primera vez y puede apuntar a otro repositorio.
 - Los overrides `clave=valor` de `train` se parsean con `ultralytics.cfg.smart_value`
   (igual que el CLI `yolo`); `yaml.safe_load` leería `1e-3` como string.
 - `rank_predictions` puntúa con matching 1-a-1 y por clase (`--class-agnostic` para

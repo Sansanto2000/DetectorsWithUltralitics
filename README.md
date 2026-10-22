@@ -36,6 +36,14 @@ uv run python -m plate_detectors.evaluate runs/obb/0.0.5.r.obb/weights/best.pt \
 uv run python -m plate_detectors.predict runs/obb/0.0.5.r.obb/weights/best.pt images/
 ```
 
+Dataset sintético con [GASP](https://github.com/Sansanto2000/GASP) (requiere un clon local,
+por defecto en la carpeta hermana `GSSSP`):
+
+```
+uv run python -m plate_detectors.dataset.generate_synthetic \
+    /mnt/data3/sponte/datasets/gasp.observation.obb --images 96000
+```
+
 Preparación de datasets (`plate_detectors.dataset.*`): `split`, `rotate90`,
 `find_duplicates`, `sanitize_filenames`, `move_contents`.
 

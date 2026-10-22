@@ -12,6 +12,7 @@ MODULES = [
     "plate_detectors.predict",
     "plate_detectors.check_gpu",
     "plate_detectors.dataset.split",
+    "plate_detectors.dataset.generate_synthetic",
     "plate_detectors.dataset.rotate90",
     "plate_detectors.dataset.find_duplicates",
     "plate_detectors.dataset.sanitize_filenames",
